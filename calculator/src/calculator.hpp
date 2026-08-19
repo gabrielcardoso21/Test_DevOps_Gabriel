@@ -13,5 +13,8 @@ class Calculator {
 
   inline T multiply() { return number1 * number2; }
 
-  inline T divide() { return number1 / number2; }
+  inline T divide() {
+      if (number1 == 0 && number2 == 0) return 0;
+      return number1 / number2;
+  }
 };
