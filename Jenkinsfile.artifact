@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') { steps { checkout scm } }
+        stage('Checkout') { steps { cleanWs(); checkout scm } }
         stage('Build') { steps { sh 'cd calculator && make' } }
         stage('Publish Release') {
             steps {
