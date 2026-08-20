@@ -6,6 +6,6 @@ pipeline {
         stage('Format Check') { steps { sh 'cd calculator && make format-check' } }
         stage('Build') { steps { sh 'cd calculator && make' } }
         stage('Unit Tests') { steps { sh 'cd calculator && make unittest' } }
-        stage('Archive') { steps { archiveArtifacts artifacts: 'calculator/src/bin/*,calculator/tests/bin/*', fingerprint: true } }
+        stage('Archive') { steps { archiveArtifacts artifacts: 'calculator/bin/*,calculator/tests/bin/*', fingerprint: true } }
     }
 }
