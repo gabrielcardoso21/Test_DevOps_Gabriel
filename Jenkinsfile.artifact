@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') { steps { checkout scm } }
+        stage('Build') { steps { sh 'cd calculator && make' } }
+        stage('Publish Release') {
+            steps {
+                withCredentials([string(credentialsId: 'github-release-token', variable: 'GH_TOKEN')]) {
+                    sh '''
+                        cd calculator
+                        TAG="build-${BUILD_NUMBER}"
+                        gh release create "$TAG" src/bin/* \
+                            --title "Build ${BUILD_NUMBER}" \
+                            --notes "Artefato gerado automaticamente pelo Jenkins - $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+                    '''
+                }
+            }
+        }
+    }
+}

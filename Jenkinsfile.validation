@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') { steps { cleanWs(); checkout scm } }
+        stage('Lint') { steps { sh 'cd calculator && make lint' } }
+        stage('Format Check') { steps { sh 'cd calculator && make format-check' } }
+        stage('Build') { steps { sh 'cd calculator && make' } }
+        stage('Unit Tests') { steps { sh 'cd calculator && make unittest' } }
+        stage('Archive') { steps { archiveArtifacts artifacts: 'calculator/src/bin/*,calculator/tests/bin/*', fingerprint: true } }
+    }
+}
